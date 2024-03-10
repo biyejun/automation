@@ -16,8 +16,8 @@ app.get('/auto-build', async (req, res) => {
       return;
     }
     console.log(`执行结果: ${stdout}`);
+    res.send('构建完成');
   });
-  res.send('hhhhh');
 });
 
 app.listen(3000, () => {
