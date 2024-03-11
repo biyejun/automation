@@ -38,7 +38,15 @@ app.post('/github-webhook', (req, res) => {
     // 如果签名匹配且事件类型是你想要的（例如 push），则处理请求
     if (event === 'push') {
       // 在这里处理 push 事件
-      res.send('Webhook received and processed successfully');
+      exec(`sh ${buildShPath}`, (err, stdout, stderr) => {
+        if (err) {
+          console.error(`执行 shell 脚本时出现错误: ${err}`);
+          return;
+        }
+        console.log(`执行结果: ${stdout}`);
+        console.log('Webhook received and processed successfully');
+        res.send('构建完成');
+      });
     } else {
       // 如果事件类型不是你所期望的，可以返回适当的响应
       res.status(400).send('Invalid event type');
